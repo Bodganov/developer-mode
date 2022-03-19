@@ -45,7 +45,7 @@ createSlash();
 async function createSlash(){
     try{
         await rest.put(
-            Routes.applicationCommands(process.env.clientid, process.env.serverid), {
+            Routes.applicationCommands(process.env.clientid), {
                 body: commands
             }
         )
