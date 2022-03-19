@@ -18,8 +18,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon node index.js",
-    "worker": "node index.js"
+    "dev": "nodemon node index.js"
+  },
+  "engines": {
+    "node": "16.x"
   },
   "keywords": [],
   "author": "",
