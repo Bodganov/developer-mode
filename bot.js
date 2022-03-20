@@ -20,9 +20,9 @@ mongoose.connect(process.env.URLMONGOO, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
-    BarrasVerdes(`Base de datos conectada`);
+    console.log(`Base de datos conectada`.green);
 }).catch((err) => {
-    BarrasRojas(`Error en conexión a la base de datos`)
+    console.log(`Error en conexión a la base de datos`.red)
 });
 
 // -- Cargado de slash commands
@@ -45,11 +45,11 @@ createSlash();
 async function createSlash(){
     try{
         await rest.put(
-            Routes.applicationCommands(process.env.clientid), {
+            Routes.applicationCommands(process.env.clientid, process.env.serverid), {
                 body: commands
             }
         )
-        BarrasVerdes(`Slash Commands Cargados`);
+        console.log(`Slash Commands Cargados`.green);
     } catch(e) {
         console.log(e)
     }
