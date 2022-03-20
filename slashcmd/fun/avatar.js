@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder, ContextMenuCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
@@ -15,4 +15,19 @@ module.exports = {
         .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
         await interaction.reply({ embeds: [embed] });
 	}
+}
+
+module.exports = {
+	data: new ContextMenuCommandBuilder()
+    .setName("avatar")
+    .setType(2),
+    async run(client, interaction){
+        let user = await interaction.guild.members.fetch(interaction.targetId);
+
+        const embed = new MessageEmbed()
+        .setTitle(`Avatar de ${user.user.tag}`)
+        .setImage(user.user.displayAvatarURL({ dynamic: true, size: 2048 }))
+        .setColor(user.displayHexColor === "#000000" ? "#ffffff" : user.displayHexColor);
+        interaction.reply({ embeds: [embed] });
+    }
 }

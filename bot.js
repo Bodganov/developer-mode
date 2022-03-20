@@ -11,9 +11,6 @@ require('dotenv').config();
 //MODULO FILTERSCRIPTS
 const { readdirSync } = require('fs');
 
-// -- Barras funcion
-const { BarrasVerdes, BarrasRojas } = require('./functions/barrasDiagram');
-
 // -- base de datos
 const mongoose = require('mongoose');
 mongoose.connect(process.env.URLMONGOO, {

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder, ContextMenuCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require("discord.js")
 
 module.exports = {
@@ -41,3 +41,56 @@ module.exports = {
         }, 2000);
 	},
 };
+
+module.exports = {
+    data: new ContextMenuCommandBuilder()
+    .setName("userinfo")
+    .setType(2),
+    async run(client, interaction){
+        let member = await interaction.guild.members.fetch(interaction.targetId);
+
+        let Bags = {
+            'HOUSE_BRAVERY': '<:bravery:953865124798689331>',
+            'DISCORD_EMPLOYEE': '<:staffdiscord:953869071345152000>',
+            'PARTNERED_SERVER_OWNER': '<:partner:953869075451367425>',
+            'HYPESQUAD_EVENTS': '<:HypeSquad:953869076265062420>',
+            'BUGHUNTER_LEVEL_1': '<:bughunter1:953869071445815357>',
+            'BUGHUNTER_LEVEL_2': '<:BugHunter2:953869077594664980>',
+            'HOUSE_BRILLIANCE': '<:brilliance:953869073027063820>',
+            'EARLY_VERIFIED_BOT_DEVELOPER': '<:botverifieddeveloper:953869071374483487> ',
+            'DISCORD_CERTIFIED_MODERATOR': '<:moderatordiscord:953869071332560917>'
+        }
+
+        const embed = new MessageEmbed()
+        .setAuthor(`Información de ${member.user.username}`, member.user.displayAvatarURL({ dynamic: true }))
+        .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
+        .addField('Nombre de Discord', member.user.tag, true)
+        .addField('ID Usuario', member.user.id, true)
+        .addField("Cuenta creada el:", member.user.createdAt.toLocaleString(), true)
+        .addField("Ingreso", member.joinedAt.toLocaleString(), true)
+        .addField("Informacion del servidor", [
+            `Apodo: \`${member.nickname !== null ? `${member.nickname}` : 'No'}\``,
+            `Booster: \`${member.premiumSince ? 'Si ' + member.premiumSince.toLocaleString() : 'Nope'}\``
+        ].join("\n"), true)
+        .addField('Badges', `${Bags[member.user.flags.toArray()]}`, true)
+        .addField('Roles', `${member.roles.cache.map(roles => `\`${roles.name}\``).join(', ')}`, true)
+
+        interaction.reply({ embeds: [embed] });
+    }
+}
+/*
+module.exports = {
+	data: new ContextMenuCommandBuilder()
+    .setName("avatar")
+    .setType(2),
+    async run(client, interaction){
+        let user = await interaction.guild.members.fetch(interaction.targetId);
+
+        const embed = new MessageEmbed()
+        .setTitle(`Avatar de ${user.user.tag}`)
+        .setImage(user.user.displayAvatarURL({ dynamic: true, size: 2048 }))
+        .setColor(user.displayHexColor === "#000000" ? "#ffffff" : user.displayHexColor);
+        interaction.reply({ embeds: [embed] });
+    }
+}
+*/
