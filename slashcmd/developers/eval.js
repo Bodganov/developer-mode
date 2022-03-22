@@ -9,34 +9,65 @@ module.exports = {
     .setDescription("Evalua un codigo")
     .addStringOption(string => string.setName('evaluo').setDescription('El codigo que se evaluara').setRequired(true)),
 	async run(client, interaction){
-        if(!ID_Owners.includes(interaction.user.id)) return interaction.reply({ content: "No puedes usar este comando", ephemeral: true });
+        if(interaction.locale === 'es-ES'){
+            if(!ID_Owners.includes(interaction.user.id)) return interaction.reply({ content: "No puedes usar este comando", ephemeral: true });
 
-        const args = interaction.options.getString('evaluo');
+            const args = interaction.options.getString('evaluo');
 
-        try {
-            const evaluando = await eval(args);
-            const truncado = truncar(inspect(evaluando), 2045);
+            try {
+                const evaluando = await eval(args);
+                const truncado = truncar(inspect(evaluando), 2045);
 
-            interaction.reply({ embeds: 
-                [
-                    new MessageEmbed()
-                    .setTitle('Evaluacion')
-                    .setDescription(`\`\`\`js\n${truncado}\`\`\``)
-                    .setColor('PURPLE')
-                    .setTimestamp()
-                ]
-            })
-        } catch(e) {
-            interaction.reply({ embeds: 
-                [
-                    new MessageEmbed()
-                    .setTitle('Evaluacion')
-                    .setDescription(`\`\`\`js\n${e.toString().substring(0, 2048)}\`\`\``)
-                    .setColor('PURPLE')
-                    .setTimestamp()
-                ]
-            })
-        }
+                interaction.reply({ embeds: 
+                    [
+                        new MessageEmbed()
+                        .setTitle('Evaluacion')
+                        .setDescription(`\`\`\`js\n${truncado}\`\`\``)
+                        .setColor('PURPLE')
+                        .setTimestamp()
+                    ]
+                })
+            } catch(e) {
+                interaction.reply({ embeds: 
+                    [
+                        new MessageEmbed()
+                        .setTitle('Evaluacion')
+                        .setDescription(`\`\`\`js\n${e.toString().substring(0, 2048)}\`\`\``)
+                        .setColor('PURPLE')
+                        .setTimestamp()
+                    ]
+                })
+            }
+        } else if(interaction.locale === 'en-US'){
+            if(!ID_Owners.includes(interaction.user.id)) return interaction.reply({ content: "Your no have permission for use the command.", ephemeral: true });
+
+            const args = interaction.options.getString('evaluo');
+
+            try {
+                const evaluando = await eval(args);
+                const truncado = truncar(inspect(evaluando), 2045);
+
+                interaction.reply({ embeds: 
+                    [
+                        new MessageEmbed()
+                        .setTitle('Evaluated')
+                        .setDescription(`\`\`\`js\n${truncado}\`\`\``)
+                        .setColor('PURPLE')
+                        .setTimestamp()
+                    ]
+                })
+            } catch(e) {
+                interaction.reply({ embeds: 
+                    [
+                        new MessageEmbed()
+                        .setTitle('Evaluated')
+                        .setDescription(`\`\`\`js\n${e.toString().substring(0, 2048)}\`\`\``)
+                        .setColor('PURPLE')
+                        .setTimestamp()
+                    ]
+                })
+            }
+        }  
 	}
 }
 

@@ -1,6 +1,3 @@
-const Discord = require('discord.js');
-const { asegurar_todo } = require('../../functions/security');
-
 module.exports = {
     name: 'interactionCreate',
     run: async (client, interaction) => {
