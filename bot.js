@@ -10,6 +10,7 @@ require('dotenv').config();
 
 //MODULO FILTERSCRIPTS
 const { readdirSync } = require('fs');
+const path = require('path');
 
 // -- base de datos
 const mongoose = require('mongoose');
@@ -17,9 +18,9 @@ mongoose.connect(process.env.URLMONGOO, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
-    console.log(`Base de datos conectada`.green);
+    console.log(`DataBase Connect.`.green);
 }).catch((err) => {
-    console.log(`Error en conexión a la base de datos`.red)
+    console.log(`Error in load of DataBase`.red)
 });
 
 // -- Cargado de slash commands
@@ -46,7 +47,7 @@ async function createSlash(){
                 body: commands
             }
         )
-        console.log(`Slash Commands Cargados`.green);
+        console.log(`Slash Commands Loaded`.green);
     } catch(e) {
         console.log(e)
     }
@@ -59,18 +60,19 @@ readdirSync('./slashcmd').forEach(async(categorys) => {
     const slashcommandsFile = readdirSync(`./slashcmd/${categorys}`).filter((archivo) => archivo.endsWith('.js'))
     for(const archivo of slashcommandsFile){
         const slash = require(`./slashcmd/${categorys}/${archivo}`)
-        console.log(`SlashCommands - ${categorys}/${archivo} cargados.`.yellow);
         client.slashcommands.set(slash.data.name, slash)
+        console.log(`SlashCommands - ${categorys}/${archivo} Loaded.`.yellow);
     }
 });
 
     // --- EVENTOS --- //
-client.comandos = new Collection();
-for(const file of readdirSync('./eventos/')){
-    if(file.endsWith('.js')){
-        let filename = file.substring(0, file.length - 3);
-        let filecontent = require(`./eventos/${file}`);
-        client.on(filename, filecontent.bind(null, client));
+const events = readdirSync(path.join(__dirname, 'events'));
+for(const folders of events){
+    const folder = readdirSync(path.join(__dirname, 'events', folders));
+    for(const file of folder){
+        const event = require(path.join(__dirname, 'events', folders, file));
+        client.on(event.name, (...args) => event.run(client, ...args));
+        console.log(`Events - ${folders}/${file}(${event.name}) Loaded.`.yellow);
     }
 }
 
@@ -90,4 +92,4 @@ async function updateStatus() {
     }).catch(console.error)
 }
 
-client.login(process.env.token).catch(() => console.log(`-[X]- NO HAS ESPECIFICADO UN TOKEN VALIDO -[X]-`.red));
+client.login(process.env.token).catch(() => console.log(`Specify a valid token`.red));

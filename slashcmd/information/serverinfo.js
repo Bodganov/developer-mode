@@ -46,7 +46,7 @@ module.exports = {
                 `**Boosts** \`${interaction.guild.premiumSubscriptionCount}\``,
                 `**Boosters** \`${interaction.guild.members.cache.filter((m) => m.premiumSince).size}\``
             ].join("\n"))
-
+            .setColor('PURPLE');
             interaction.editReply({ embeds: [embed] });
         }, 2000);
 	},

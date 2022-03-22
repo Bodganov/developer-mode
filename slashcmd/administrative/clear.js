@@ -11,10 +11,13 @@ module.exports = {
         const cantidad = interaction.options.getNumber("cantidad");
         const usuario = interaction.options.getMember("target");
 
+        if(cantidad < 0) return interaction.reply({ content: "La cantidad debe ser un numero positivo", ephemeral: true });
+        if(cantidad > 100) return interaction.reply({ content: "No puedo eliminar mas de 100 mensajes", ephemeral: true });
+
         const mensajes = await interaction.channel.messages.fetch();
 
         const response = new MessageEmbed()
-        .setColor('ORANGE');
+        .setColor('PURPLE');
 
         if(usuario){
             let i = 0;

@@ -36,7 +36,7 @@ module.exports = {
             ].join("\n"), true)
             .addField('Badges', `${Bags[member.user.flags.toArray()]}`, true)
             .addField('Roles', `${member.roles.cache.map(roles => `\`${roles.name}\``).join(', ')}`, true)
-
+            .setColor('PURPLE');
             interaction.editReply({ embeds: [embed] });
         }, 2000);
 	},

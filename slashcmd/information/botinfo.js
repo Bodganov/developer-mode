@@ -47,6 +47,7 @@ module.exports = {
                 .addField('Actividad del Host', `${moment.duration(os.uptime * 1000).format(`D [Días], H [Horas], m [Minutos], s [Segundos]`)}`, false)
                 .addField('Actividad del Bot', `${moment.duration(client.uptime).format(`D [Días], H [Horas], m [Minutos], s [Segundos]`)}`, true)
                 .addField('Último Inicio', `${moment(client.readyAt).format("DD [de] MMM YYYY HH:mm")}`, true)
+                .setColor('PURPLE');
                 interaction.editReply({ embeds: [statusEmbed] })
             })
         }, 2000)
