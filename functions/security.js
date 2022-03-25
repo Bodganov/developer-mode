@@ -1,25 +1,28 @@
-const Discord = require('discord.js')
+// Modelos
+const ecoModel = require('../schemas/currency/currencySchema');
+
+const Discord = require('discord.js');
 
 module.exports = {
-    paginacion
+    paginacion,
+    asegurar_todo
 }
 
-/*
+
 async function asegurar_todo(guildid, userid) {
     if(guildid && userid){
-        let warn_data = await warnSchema.findOne({ guildID: guildid, userID: userid })
-        if (!warn_data) {
-            console.log(`Asegurado: Warnings de ${userid} en ${guildid}`.green);
-            warn_data = await new warnSchema({
-                guildID: guildid,
-                userID: userid,
-                warnings: [],
+        let data = await ecoModel.findOne({ GuildID: guildid, UserID: userid });
+        if(!data){
+            console.log(`Asegurando datos de ${userid} en el guild ${guildid} (Currency)`.green);
+            data = await new ecoModel({
+                GuildID: guildid,
+                UserID: userid
             });
-            await warn_data.save();
+            await data.save();
         }
     }
 }
-*/
+
 
 
 //definimos la funcion de paginación

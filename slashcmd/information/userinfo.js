@@ -24,11 +24,13 @@ module.exports = {
 
         setTimeout(() => {
             const embed = new MessageEmbed()
-            .setAuthor(`Información de ${member.user.username}`, member.user.displayAvatarURL({ dynamic: true }))
+            .setAuthor({ name: `Información de ${member.user.username}`, iconURL: member.user.displayAvatarURL({ dynamic: true }) })
             .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
             .addField('Nombre de Discord', member.user.tag, true)
             .addField('ID Usuario', member.user.id, true)
-            .addField("Cuenta creada el:", member.user.createdAt.toLocaleString(), true)
+            //<t:${Math.floor(member.joinedTimestamp / 1000)}:R>
+            //member.user.createdAt.toLocaleString()
+            .addField("Cuenta creada el:", `<t:${Math.floor(member.user.createdAt / 1000)}:R>`, true)
             .addField("Ingreso", member.joinedAt.toLocaleString(), true)
             .addField("Informacion del servidor", [
                 `Apodo: \`${member.nickname !== null ? `${member.nickname}` : 'No'}\``,

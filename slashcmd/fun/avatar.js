@@ -10,7 +10,7 @@ module.exports = {
         const member = interaction.options.getMember("member") || interaction.member;
 
         const embed = new MessageEmbed()
-        .setAuthor(member.user.tag, member.user.displayAvatarURL({ dynamic: true }))
+        .setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true }) })
         .setImage(member.user.displayAvatarURL({ dynamic: true, size: 1024 }))
         .setColor(member.displayHexColor === "#000000" ? "#ffffff" : member.displayHexColor)
         await interaction.reply({ embeds: [embed] });

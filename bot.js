@@ -9,7 +9,7 @@ require('colors');
 require('dotenv').config();
 
 //MODULO FILTERSCRIPTS
-const { readdirSync } = require('fs');
+const fs  = require('fs');
 const path = require('path');
 
 // -- base de datos
@@ -28,8 +28,8 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const commands = []
 
-readdirSync('./slashcmd').forEach(async(categorys) => {
-    const slashcommandsFile = readdirSync(`./slashcmd/${categorys}`).filter((archivo) => archivo.endsWith('js'))
+fs.readdirSync('./slashcmd').forEach(async(categorys) => {
+    const slashcommandsFile = fs.readdirSync(`./slashcmd/${categorys}`).filter((archivo) => archivo.endsWith('js'))
     for(const archivo of slashcommandsFile){
         const slash = require(`./slashcmd/${categorys}/${archivo}`)
         commands.push(slash.data.toJSON())
@@ -56,8 +56,8 @@ async function createSlash(){
 // -- Resto del codigo
 
 client.slashcommands = new Collection();
-readdirSync('./slashcmd').forEach(async(categorys) => {
-    const slashcommandsFile = readdirSync(`./slashcmd/${categorys}`).filter((archivo) => archivo.endsWith('.js'))
+fs.readdirSync('./slashcmd').forEach(async(categorys) => {
+    const slashcommandsFile = fs.readdirSync(`./slashcmd/${categorys}`).filter((archivo) => archivo.endsWith('.js'))
     for(const archivo of slashcommandsFile){
         const slash = require(`./slashcmd/${categorys}/${archivo}`)
         client.slashcommands.set(slash.data.name, slash)
@@ -66,9 +66,9 @@ readdirSync('./slashcmd').forEach(async(categorys) => {
 });
 
     // --- EVENTOS --- //
-const events = readdirSync(path.join(__dirname, 'events'));
+const events = fs.readdirSync(path.join(__dirname, 'events'));
 for(const folders of events){
-    const folder = readdirSync(path.join(__dirname, 'events', folders));
+    const folder = fs.readdirSync(path.join(__dirname, 'events', folders));
     for(const file of folder){
         const event = require(path.join(__dirname, 'events', folders, file));
         client.on(event.name, (...args) => event.run(client, ...args));
@@ -88,7 +88,7 @@ async function updateStatus() {
     Promise.all(promises).then(results => {
         const guildNum = results[0].reduce((acc, guildCount) => acc + guildCount, 0)
         const memberNum = results[1].reduce((acc, memberCount) => acc + memberCount, 0)
-        client.user.setActivity(`Servidores: ${guildNum} Miembros: ${memberNum}`, { type: 'LISTENING'})
+        client.user.setActivity(`Servidores: ${guildNum} Miembros: ${memberNum}`, { type: 'WATCHING' })
     }).catch(console.error)
 }
 
