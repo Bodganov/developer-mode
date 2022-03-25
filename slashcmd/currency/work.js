@@ -54,7 +54,7 @@ module.exports = {
                         TimeoutWork: Date.now(),
                 });
             
-                return interaction.reply({ content: `Trabajaste como ${trabajo} y generaste **+$${recompensa}**.` });
+                return interaction.reply({ content: `<a:coin_moneda:956777023722889216> | Trabajaste como ${trabajo} y generaste **+$${recompensa}**.` });
             }
         }
     } 

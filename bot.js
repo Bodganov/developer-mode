@@ -88,7 +88,7 @@ async function updateStatus() {
     Promise.all(promises).then(results => {
         const guildNum = results[0].reduce((acc, guildCount) => acc + guildCount, 0)
         const memberNum = results[1].reduce((acc, memberCount) => acc + memberCount, 0)
-        client.user.setActivity(`Servidores: ${guildNum} Miembros: ${memberNum}`, { type: 'WATCHING' })
+        client.user.setActivity(`Servers: ${guildNum} Members: ${memberNum}`, { type: 'WATCHING' })
     }).catch(console.error)
 }
 
