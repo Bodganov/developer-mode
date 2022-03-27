@@ -48,7 +48,7 @@ module.exports = {
                 .addField('Actividad del Bot', `${moment.duration(client.uptime).format(`D [Días], H [Horas], m [Minutos], s [Segundos]`)}`, true)
                 .addField('Último Inicio', `${moment(client.readyAt).format("DD [de] MMM YYYY HH:mm")}`, true)
                 .addField('Comandos', `${client.slashcommands.size}`, true)
-                .addField('Categorias', `.`, true)
+                .addField('Latencias', `${Math.round(client.ws.ping)}ms API\n${Date.now() - message.createdTimestamp}msms Bot`)
                 .setColor('PURPLE');
                 interaction.editReply({ embeds: [statusEmbed] })
             })

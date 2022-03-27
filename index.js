@@ -1,7 +1,35 @@
 require('dotenv').config();
 require('colors');
 const { ShardingManager } = require('discord.js');
-const manager = new ShardingManager('./bot.js', { token: process.env.token });
+const manager = new ShardingManager('./bot.js', {
+    token: process.env.token,
+    totalShards: "auto",
+    spawnTimeout: -1,
+    respawn: true
+});
 
-manager.on('shardCreate', shard => console.log(`Shard: ${shard.id} started`.yellow));
+manager.on('shardCreate', shard => {
+    console.log(`Launched shard #${shard.id}`);
+    shard.on('ready', () => {
+        console.log(`Shard ready. Shard Count: #${shard.manager.totalShards}`)
+    });
+    shard.on('disconnect', (a, b) => {
+        console.log('Shard disconnected');
+        console.log(a);
+        console.log(b);
+    });
+    shard.on('reconnecting', (a, b) => {
+        console.log('Shard reconnecting');
+        console.log(a);
+        console.log(b);
+    });
+    shard.on('death', (a, b) => {
+        console.log('Shard died');
+        console.log(a);
+        console.log(b);
+    });
+    shard.on('error', (error) => {
+        console.error(error)
+    })
+});
 manager.spawn();

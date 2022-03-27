@@ -7,6 +7,7 @@ const setupCurrency = Schema({
     Bank: { type: Number, default: 0 },
     TimeoutDaily: String,
     TimeoutWork: String,
+    TimeoutRob: String,
 });
 
 module.exports = model('CurrencySetup', setupCurrency);

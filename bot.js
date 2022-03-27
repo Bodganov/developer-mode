@@ -1,29 +1,23 @@
-//CUERPO PRINCIPAL
-const Discord = require('discord.js');
-const { Client, Collection, MessageEmbed, MessageAttachment, MessageActionRow, MessageButton } = require('discord.js');
-const client = new Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] })
+const { Client, Collection } = require('discord.js');
+const client = new Client({ intents: 32767 })
 
 require('colors');
 
-//.ENV
 require('dotenv').config();
 
-//MODULO FILTERSCRIPTS
 const fs  = require('fs');
 const path = require('path');
 
-// -- base de datos
 const mongoose = require('mongoose');
 mongoose.connect(process.env.URLMONGOO, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
     console.log(`DataBase Connect.`.green);
-}).catch((err) => {
+}).catch(() => {
     console.log(`Error in load of DataBase`.red)
 });
 
-// -- Cargado de slash commands
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const commands = []
@@ -53,8 +47,6 @@ async function createSlash(){
     }
 }
 
-// -- Resto del codigo
-
 client.slashcommands = new Collection();
 fs.readdirSync('./slashcmd').forEach(async(categorys) => {
     const slashcommandsFile = fs.readdirSync(`./slashcmd/${categorys}`).filter((archivo) => archivo.endsWith('.js'))
@@ -65,7 +57,6 @@ fs.readdirSync('./slashcmd').forEach(async(categorys) => {
     }
 });
 
-    // --- EVENTOS --- //
 const events = fs.readdirSync(path.join(__dirname, 'events'));
 for(const folders of events){
     const folder = fs.readdirSync(path.join(__dirname, 'events', folders));

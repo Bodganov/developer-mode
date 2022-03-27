@@ -18,36 +18,33 @@ module.exports = {
                 units: ['h', 'm', 's'],
                 round: true
             });
-            return await interaction.reply(`🕑 - Tienes que esperar \`${tiempo_restante}\` para volver a trabajar`);
+            return await interaction.reply(`🕑 - Tienes que esperar \`${tiempo_restante}\` para volver a recoger tu recompensa diaria`);
         }
 
         let recompensa = 2000;
 
-        switch(datos.Premium){
-            case true: {
-                await ecoSchema.findOneAndUpdate({ member: interaction.user.id }, {
-                    GuildID: interaction.guild.id,
-                    UserID: interaction.user.id,
-                    $inc: {
-                        Money: recompensa + datos.PagoExtra*2
-                    },
-                    TimeoutDaily: Date.now(),
-                });
+        if(datos.Premium <= Date.now()){
+            await ecoSchema.findOneAndUpdate({ member: interaction.user.id }, {
+                GuildID: interaction.guild.id,
+                UserID: interaction.user.id,
+                $inc: {
+                    Money: recompensa
+                },
+                TimeoutDaily: Date.now(),
+            });
 
-                return interaction.reply({ content: `<a:coin_moneda:956777023722889216> | Recibiste tu pago diario de $**${recompensa}** + $**${datos.PagoExtra*2} __por ser usuario premium__**\n🏧 | Total: $**${recompensa + datos.PagoExtra*2}**` });
-            }
-            case false: {
-                await ecoSchema.findOneAndUpdate({ member: interaction.user.id }, {
-                    GuildID: interaction.guild.id,
-                    UserID: interaction.user.id,
-                    $inc: {
-                        Money: recompensa
-                    },
-                    TimeoutDaily: Date.now(),
-                });
+            return interaction.reply({ content: `<a:coin_moneda:956777023722889216> | Recibiste tu pago diario de $**${recompensa}**\n🏧 | Total: $**${recompensa}**` });
+        } else {
+            await ecoSchema.findOneAndUpdate({ member: interaction.user.id }, {
+                GuildID: interaction.guild.id,
+                UserID: interaction.user.id,
+                $inc: {
+                    Money: recompensa + datos.PagoExtra*2
+                },
+                TimeoutDaily: Date.now(),
+            });
 
-                return interaction.reply({ content: `<a:coin_moneda:956777023722889216> | Recibiste tu pago diario de $**${recompensa}**\n🏧 | Total: $**${recompensa}**` });
-            }
+            return interaction.reply({ content: `<a:coin_moneda:956777023722889216> | Recibiste tu pago diario de $**${recompensa}** + $**${datos.PagoExtra*2} __por ser usuario premium__**\n🏧 | Total: $**${recompensa + datos.PagoExtra*2}**` });
         }
     }
 }

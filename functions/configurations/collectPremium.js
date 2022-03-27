@@ -10,8 +10,7 @@ async function CollectPremium(userid){
         if(!dato){
             console.log(`Datos de ${userid} guardados (Premium)`)
             dato = await new model_user({
-                member: userid,
-                Premium: false
+                member: userid
             });
             dato.save();
         }

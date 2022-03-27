@@ -70,7 +70,9 @@ module.exports = {
                     embed.addField('Apodo', `${member.nickname}`, true)
                 }
 
-                if(datos.Premium !== false){
+                if(datos.Premium <= Date.now()){
+                    embed.addField('Premium', '❎', true)
+                } else {
                     embed.addField('Premium', '✅', true)
                     embed.addField('Pago Extra Premium', `$${datos.PagoExtra}`, true)
                 }
